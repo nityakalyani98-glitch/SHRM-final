@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHRM CP & SCP Exam Prep</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0f2040;
+    --navy-mid: #1a3560;
+    --gold: #c9973a;
+    --gold-light: #e8b84b;
+    --cream: #fdf8f0;
+    --cream-dark: #f0e8d8;
+    --green: #2d7a4f;
+    --green-light: #e8f5ee;
+    --red: #9b3030;
+    --red-light: #faeaea;
+    --cp-color: #1a6b8a;
+    --cp-bg: #e8f4f8;
+    --scp-color: #6b3fa0;
+    --scp-bg: #f0e8f8;
+    --text: #1a1a2e;
+    --muted: #6b7280;
+    --border: #ddd0bb;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── SETUP SCREEN ── */
+  #setup-screen {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: var(--navy);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #setup-screen::before {
+    content: '';
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,151,58,0.15) 0%, transparent 70%);
+    top: -100px; right: -100px;
+    pointer-events: none;
+  }
+
+  .setup-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(201,151,58,0.3);
+    border-radius: 20px;
+    padding: 40px 36px;
+    max-width: 580px;
+    width: 100%;
+    backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 1;
+  }
+
+  .badge-row { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .badge-gold { background: var(--gold); color: var(--navy); }
+  .badge-cp { background: var(--cp-bg); color: var(--cp-color); }
+  .badge-scp { background: var(--scp-bg); color: var(--scp-color); }
+
+  .setup-card h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  .setup-card > p {
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  .setup-card label {
+    display: block;
+    color: rgba(255,255,255,0.8);
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+  }
+
+  .setup-card input {
+    width: 100%;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(201,151,58,0.4);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+    margin-bottom: 20px;
+  }
+
+  .setup-card input:focus { border-color: var(--gold); }
+  .setup-card input::placeholder { color: rgba(255,255,255,0.3); }
+
+  .how-to {
+    background: rgba(201,151,58,0.1);
+    border: 1px solid rgba(201,151,58,0.25);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 24px;
+  }
+
+  .how-to h3 {
+    color: var(--gold-light);
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .how-to ol {
+    padding-left: 18px;
+    color: rgba(255,255,255,0.65);
+    font-size: 13px;
+    line-height: 1.9;
+  }
+
+  .how-to .col-highlight {
+    background: rgba(201,151,58,0.2);
+    color: var(--gold-light);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .how-to a { color: var(--gold-light); text-decoration: underline; cursor: pointer; }
+
+  .btn-primary {
+    width: 100%;
+    padding: 14px;
+    background: var(--gold);
+    color: var(--navy);
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  .demo-link { text-align: center; margin-top: 16px; }
+  .demo-link button {
+    background: none; border: none;
+    color: rgba(255,255,255,0.45);
+    font-size: 13px; cursor: pointer;
+    text-decoration: underline;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .demo-link button:hover { color: rgba(255,255,255,0.7); }
+
+  .error-msg {
+    background: var(--red-light);
+    border: 1px solid var(--red);
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--red);
+    margin-top: 12px;
+    display: none;
+  }
+
+  /* ── FILTER SCREEN ── */
+  #filter-screen { display: none; padding: 24px; max-width: 700px; margin: 0 auto; }
+
+  .top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-top: 16px;
+  }
+
+  .top-bar h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--navy);
+  }
+
+  .stats-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .stat-box {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    flex: 1;
+    min-width: 80px;
+    text-align: center;
+  }
+
+  .stat-box .num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--navy);
+    display: block;
+  }
+
+  .stat-box .lbl {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .filter-section { margin-bottom: 22px; }
+
+  .filter-section h3 {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  .filter-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  .chip {
+    padding: 7px 14px;
+    border-radius: 100px;
+    border: 1.5px solid var(--border);
+    background: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .chip:hover { border-color: var(--navy-mid); }
+  .chip.active { background: var(--navy); border-color: var(--navy); color: #fff; }
+  .chip.cp-chip.active { background: var(--cp-color); border-color: var(--cp-color); color: #fff; }
+  .chip.scp-chip.active { background: var(--scp-color); border-color: var(--scp-color); color: #fff; }
+
+  .start-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-start {
+    flex: 1;
+    padding: 14px 24px;
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: background 0.2s;
+    min-width: 160px;
+  }
+
+  .btn-start:hover { background: var(--navy-mid); }
+  .q-count-label { font-size: 14px; color: var(--muted); }
+
+  /* ── QUIZ SCREEN ── */
+  #quiz-screen { display: none; padding: 20px; max-width: 700px; margin: 0 auto; }
+
+  .quiz-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-top: 12px;
+  }
+
+  .back-btn {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    white-space: nowrap;
+  }
+
+  .progress-wrap { flex: 1; }
+
+  .progress-text {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 4px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .progress-bar {
+    height: 6px;
+    background: var(--cream-dark);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--navy);
+    border-radius: 10px;
+    transition: width 0.4s ease;
+  }
+
+  .score-badge {
+    background: var(--navy);
+    color: #fff;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .question-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 28px;
+    margin-bottom: 14px;
+  }
+
+  .q-meta {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .q-tag {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+    background: var(--cream-dark);
+    color: var(--navy-mid);
+  }
+
+  .q-tag-cp {
+    background: var(--cp-bg);
+    color: var(--cp-color);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  .q-tag-scp {
+    background: var(--scp-bg);
+    color: var(--scp-color);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  .question-text {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--text);
+  }
+
+  .options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  .option-btn {
+    width: 100%;
+    text-align: left;
+    padding: 13px 18px;
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: all 0.15s;
+    line-height: 1.5;
+    color: var(--text);
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .option-btn:hover:not(:disabled) { border-color: var(--navy-mid); background: #f8faff; }
+  .option-btn:disabled { cursor: default; }
+  .option-btn.correct { background: var(--green-light); border-color: var(--green); color: var(--green); }
+  .option-btn.wrong { background: var(--red-light); border-color: var(--red); color: var(--red); }
+  .option-btn.reveal-correct { background: var(--green-light); border-color: var(--green); color: var(--green); }
+
+  .opt-letter {
+    font-weight: 700;
+    min-width: 20px;
+    font-size: 13px;
+    margin-top: 1px;
+  }
+
+  .rationale-box {
+    background: #f0f4ff;
+    border-left: 4px solid var(--navy-mid);
+    border-radius: 0 12px 12px 0;
+    padding: 16px 18px;
+    margin-bottom: 14px;
+    display: none;
+  }
+
+  .rationale-box h4 {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--navy-mid);
+    margin-bottom: 8px;
+  }
+
+  .rationale-box p { font-size: 14px; line-height: 1.7; color: #374151; }
+
+  .next-btn {
+    width: 100%;
+    padding: 14px;
+    background: var(--navy);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    display: none;
+    transition: background 0.2s;
+  }
+
+  .next-btn:hover { background: var(--navy-mid); }
+
+  /* ── RESULTS SCREEN ── */
+  #results-screen {
+    display: none;
+    padding: 24px;
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .results-card {
+    background: var(--navy);
+    border-radius: 20px;
+    padding: 40px 32px;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+
+  .results-card h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+
+  .big-score {
+    font-family: 'DM Serif Display', serif;
+    font-size: 72px;
+    color: var(--gold-light);
+    line-height: 1;
+    margin: 16px 0;
+  }
+
+  .results-card p { color: rgba(255,255,255,0.65); font-size: 15px; }
+
+  .breakdown-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .breakdown-box {
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .breakdown-box.cp { background: var(--cp-bg); color: var(--cp-color); }
+  .breakdown-box.scp { background: var(--scp-bg); color: var(--scp-color); }
+
+  .result-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .btn-outline {
+    flex: 1;
+    padding: 14px;
+    background: #fff;
+    color: var(--navy);
+    border: 2px solid var(--navy);
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    min-width: 140px;
+  }
+
+  /* ── LOADING ── */
+  #loading {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15,32,64,0.85);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .spinner {
+    width: 40px; height: 40px;
+    border: 3px solid rgba(201,151,58,0.3);
+    border-top-color: var(--gold);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #loading p { color: #fff; font-size: 14px; }
+
+  @media (max-width: 480px) {
+    .setup-card { padding: 28px 20px; }
+    .setup-card h1 { font-size: 26px; }
+    .question-card { padding: 18px; }
+    .big-score { font-size: 56px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="loading">
+  <div class="spinner"></div>
+  <p>Loading questions...</p>
+</div>
+
+<!-- ══ SETUP SCREEN ══ -->
+<div id="setup-screen">
+  <div class="setup-card">
+    <div class="badge-row">
+      <span class="badge badge-gold">SHRM Prep</span>
+      <span class="badge badge-cp">CP</span>
+      <span class="badge badge-scp">SCP</span>
+    </div>
+    <h1>Your Personal<br>CP & SCP Quiz</h1>
+    <p>Questions you add in the <strong style="color:var(--gold-light)">SHRM Builder</strong> app appear here automatically — no setup needed.</p>
+
+    <div class="how-to" id="bank-status-box">
+      <h3 id="bank-status-title">⏳ Checking question bank...</h3>
+      <p id="bank-status-msg" style="color:rgba(255,255,255,0.65);font-size:13px;margin-top:6px;line-height:1.6;"></p>
+    </div>
+
+    <button class="btn-primary" id="btn-load-bank" onclick="loadFromBuilder()" style="margin-bottom:12px;">Start Quiz →</button>
+    <div class="error-msg" id="error-msg"></div>
+    <div class="demo-link">
+      <button onclick="loadDemo()">Try with sample questions first</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ FILTER SCREEN ══ -->
+<div id="filter-screen">
+  <div class="top-bar">
+    <h2>Study Session</h2>
+    <button class="back-btn" onclick="showScreen('setup')">← Back</button>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-box">
+      <span class="num" id="stat-total">0</span>
+      <span class="lbl">Total Q's</span>
+    </div>
+    <div class="stat-box">
+      <span class="num" id="stat-cp">0</span>
+      <span class="lbl" style="color:var(--cp-color)">CP</span>
+    </div>
+    <div class="stat-box">
+      <span class="num" id="stat-scp">0</span>
+      <span class="lbl" style="color:var(--scp-color)">SCP</span>
+    </div>
+    <div class="stat-box">
+      <span class="num" id="stat-domains">0</span>
+      <span class="lbl">Domains</span>
+    </div>
+    <div class="stat-box">
+      <span class="num" id="stat-subs">0</span>
+      <span class="lbl">Subdomains</span>
+    </div>
+  </div>
+
+  <!-- Exam Type Filter -->
+  <div class="filter-section">
+    <h3>Filter by Exam Type</h3>
+    <div class="filter-chips" id="examtype-chips"></div>
+  </div>
+
+  <!-- Domain Filter -->
+  <div class="filter-section">
+    <h3>Filter by Domain</h3>
+    <div class="filter-chips" id="domain-chips"></div>
+  </div>
+
+  <!-- Subdomain Filter -->
+  <div class="filter-section">
+    <h3>Filter by Subdomain</h3>
+    <div class="filter-chips" id="subdomain-chips"></div>
+  </div>
+
+  <div class="start-row">
+    <button class="btn-start" onclick="startQuiz()">Start Quiz →</button>
+    <span class="q-count-label" id="q-count-label"></span>
+  </div>
+</div>
+
+<!-- ══ QUIZ SCREEN ══ -->
+<div id="quiz-screen">
+  <div class="quiz-header">
+    <button class="back-btn" onclick="showScreen('filter')">← Exit</button>
+    <div class="progress-wrap">
+      <div class="progress-text">
+        <span id="prog-text">Question 1</span>
+        <span id="prog-pct">0%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="prog-fill" style="width:0%"></div>
+      </div>
+    </div>
+    <div class="score-badge" id="score-badge">0 / 0</div>
+  </div>
+
+  <div class="question-card">
+    <div class="q-meta">
+      <span id="q-examtype-tag"></span>
+      <span class="q-tag" id="q-domain"></span>
+      <span class="q-tag" id="q-subdomain"></span>
+    </div>
+    <p class="question-text" id="question-text"></p>
+  </div>
+
+  <div class="options-list" id="options-list"></div>
+
+  <div class="rationale-box" id="rationale-box">
+    <h4>📖 Rationale</h4>
+    <p id="rationale-text"></p>
+  </div>
+
+  <button class="next-btn" id="next-btn" onclick="nextQuestion()">Next Question →</button>
+</div>
+
+<!-- ══ RESULTS SCREEN ══ -->
+<div id="results-screen">
+  <div class="results-card">
+    <h2>Quiz Complete!</h2>
+    <div class="big-score" id="final-score">0%</div>
+    <p id="final-detail"></p>
+    <div class="breakdown-row" id="breakdown-row"></div>
+  </div>
+  <div class="result-actions">
+    <button class="btn-outline" onclick="showScreen('filter')">New Session</button>
+    <button class="btn-outline" onclick="retakeQuiz()">Retake Same Quiz</button>
+  </div>
+</div>
+
+<script>
+  let allQuestions = [];
+  let quizQuestions = [];
+  let currentIdx = 0;
+  let score = 0;
+  let cpCorrect = 0, cpTotal = 0, scpCorrect = 0, scpTotal = 0;
+
+  let selectedTypes = new Set(['ALL']);
+  let selectedDomains = new Set(['ALL']);
+  let selectedSubs = new Set(['ALL']);
+
+  // ── DEMO DATA ──
+  const demoData = [
+    { ExamType:"CP", Domain:"People", Subdomain:"Talent Acquisition", Question:"Which approach best supports long-term workforce planning?", OptionA:"Reactive hiring when vacancies arise", OptionB:"Strategic workforce planning aligned to business goals", OptionC:"Relying solely on internal promotions", OptionD:"Using only temporary staffing agencies", CorrectAnswer:"B", Rationale:"Strategic workforce planning (B) aligns talent needs with organizational goals well in advance. Reactive hiring (A) leads to gaps. Internal-only promotion (C) limits diversity. Temporary staffing (D) alone cannot support stable long-term workforce needs." },
+    { ExamType:"SCP", Domain:"People", Subdomain:"Talent Acquisition", Question:"An HR leader wants to reduce time-to-fill for critical roles. What is the BEST strategy?", OptionA:"Lower the qualification bar for all roles", OptionB:"Build proactive talent pipelines before vacancies occur", OptionC:"Outsource all recruiting to a third party", OptionD:"Post job ads only on the company website", CorrectAnswer:"B", Rationale:"Proactive talent pipelines (B) allow HR to engage candidates before roles open, reducing time-to-fill significantly. Lowering qualifications (A) risks poor performance. Full outsourcing (C) reduces strategic control. Limiting postings to the company site (D) restricts the candidate pool." },
+    { ExamType:"CP", Domain:"Organization", Subdomain:"Organizational Effectiveness", Question:"A company is undergoing rapid change. Which leadership behavior is MOST important?", OptionA:"Maintaining strict hierarchical decision-making", OptionB:"Communicating a clear vision and showing adaptability", OptionC:"Freezing all new initiatives until stability is restored", OptionD:"Delegating all decisions to frontline managers", CorrectAnswer:"B", Rationale:"During change, communicating a clear vision and adaptability (B) builds trust and directs effort. Strict hierarchy (A) slows response. Freezing initiatives (C) stalls progress. Unguided delegation to frontline managers (D) creates inconsistency." },
+    { ExamType:"SCP", Domain:"Organization", Subdomain:"HR Strategy", Question:"Which metric BEST demonstrates HR's strategic value to the C-suite?", OptionA:"Number of HR staff per employee", OptionB:"Revenue per employee and voluntary turnover rate", OptionC:"Number of training hours completed", OptionD:"Speed of payroll processing", CorrectAnswer:"B", Rationale:"Revenue per employee and voluntary turnover (B) connect HR outcomes to business performance. HR headcount ratios (A) measure efficiency only. Training hours (C) measure activity, not outcomes. Payroll speed (D) is an operational metric unrelated to strategic value." },
+    { ExamType:"CP", Domain:"Workplace", Subdomain:"Employee Relations", Question:"An employee reports feeling harassed by a peer. What should HR do FIRST?", OptionA:"Immediately terminate the accused employee", OptionB:"Conduct a prompt, impartial investigation", OptionC:"Tell the complainant to resolve it directly with the peer", OptionD:"Wait to see if the issue escalates before acting", CorrectAnswer:"B", Rationale:"A prompt, impartial investigation (B) is the legally appropriate first step. Immediate termination (A) without investigation violates due process. Directing the complainant to self-resolve (C) may constitute retaliation risk. Waiting for escalation (D) exposes the organization to significant legal liability." },
+    { ExamType:"SCP", Domain:"Workplace", Subdomain:"Employee Relations", Question:"Which approach BEST supports a culture of psychological safety?", OptionA:"Discouraging employees from raising concerns to avoid conflict", OptionB:"Leaders modeling vulnerability and openness to feedback", OptionC:"Limiting communication to formal channels only", OptionD:"Rewarding only high performers publicly", CorrectAnswer:"B", Rationale:"Leaders modeling vulnerability and openness (B) directly builds psychological safety by signaling that honest input is valued. Discouraging concerns (A) suppresses critical information. Limiting communication (C) reduces transparency. Exclusive public rewards (D) can create fear of failure rather than safety." },
+  ];
+
+  function showScreen(name) {
+    ['setup-screen','filter-screen','quiz-screen','results-screen'].forEach(id => {
+      document.getElementById(id).style.display = 'none';
+    });
+    const map = { setup:'setup-screen', filter:'filter-screen', quiz:'quiz-screen', results:'results-screen' };
+    const el = document.getElementById(map[name]);
+    el.style.display = (name === 'setup') ? 'flex' : 'block';
+  }
+
+  function showLoading(v) {
+    document.getElementById('loading').style.display = v ? 'flex' : 'none';
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('error-msg');
+    el.textContent = msg;
+    el.style.display = 'block';
+  }
+
+  function loadFromBuilder() {
+    const saved = localStorage.getItem('shrm_questions');
+    if (!saved || JSON.parse(saved).length === 0) {
+      showError('No questions found. Please add questions in the SHRM Builder app first.');
+      return;
+    }
+    allQuestions = JSON.parse(saved);
+    buildFilterScreen();
+    showScreen('filter');
+  }
+
+  function checkBankOnLoad() {
+    const saved = localStorage.getItem('shrm_questions');
+    const titleEl = document.getElementById('bank-status-title');
+    const msgEl = document.getElementById('bank-status-msg');
+    const btnEl = document.getElementById('btn-load-bank');
+    if (!saved || JSON.parse(saved).length === 0) {
+      titleEl.textContent = '📭 No questions yet';
+      msgEl.textContent = 'Open the SHRM Builder app and start pasting your questions. Once added, come back here and tap Start Quiz — they load automatically.';
+      btnEl.style.opacity = '0.5';
+      btnEl.style.pointerEvents = 'none';
+    } else {
+      const qs = JSON.parse(saved);
+      const cpCount = qs.filter(q => (q.ExamType||'').toUpperCase() === 'CP').length;
+      const scpCount = qs.filter(q => (q.ExamType||'').toUpperCase() === 'SCP').length;
+      titleEl.textContent = '✅ Question bank ready!';
+      msgEl.innerHTML = qs.length + ' questions loaded — ' + cpCount + ' CP · ' + scpCount + ' SCP.<br>Tap Start Quiz to begin.';
+      btnEl.style.opacity = '1';
+      btnEl.style.pointerEvents = 'auto';
+    }
+  }
+
+  function loadDemo() {
+    allQuestions = demoData;
+    buildFilterScreen();
+    showScreen('filter');
+  }
+
+  function parseCSV(text) {
+    const lines = text.trim().split('\n');
+    const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g,''));
+    allQuestions = lines.slice(1).map(line => {
+      const cols = parseCSVLine(line);
+      const obj = {};
+      headers.forEach((h,i) => obj[h] = (cols[i]||'').trim().replace(/^"|"$/g,''));
+      return obj;
+    }).filter(q => q.Question);
+  }
+
+  function parseCSVLine(line) {
+    const result = []; let cur = ''; let inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      const c = line[i];
+      if (c === '"') { inQ = !inQ; }
+      else if (c === ',' && !inQ) { result.push(cur); cur = ''; }
+      else { cur += c; }
+    }
+    result.push(cur);
+    return result;
+  }
+
+  function buildFilterScreen() {
+    const cpCount = allQuestions.filter(q => (q.ExamType||'').toUpperCase() === 'CP').length;
+    const scpCount = allQuestions.filter(q => (q.ExamType||'').toUpperCase() === 'SCP').length;
+    const domains = [...new Set(allQuestions.map(q => q.Domain).filter(Boolean))];
+    const subs = [...new Set(allQuestions.map(q => q.Subdomain).filter(Boolean))];
+
+    document.getElementById('stat-total').textContent = allQuestions.length;
+    document.getElementById('stat-cp').textContent = cpCount;
+    document.getElementById('stat-scp').textContent = scpCount;
+    document.getElementById('stat-domains').textContent = domains.length;
+    document.getElementById('stat-subs').textContent = subs.length;
+
+    // Exam type chips
+    renderChips('examtype-chips', ['ALL','CP','SCP'], selectedTypes, 'type', () => {
+      updateSubChips();
+      updateCount();
+    });
+
+    updateSubChips();
+    updateCount();
+  }
+
+  function updateSubChips() {
+    const activeDomains = selectedDomains.has('ALL')
+      ? allQuestions.map(q => q.Domain)
+      : [...selectedDomains];
+
+    const subs = ['ALL', ...new Set(
+      allQuestions.filter(q => activeDomains.includes(q.Domain)).map(q => q.Subdomain).filter(Boolean)
+    )];
+
+    [...selectedSubs].forEach(s => { if (s !== 'ALL' && !subs.includes(s)) selectedSubs.delete(s); });
+    if (selectedSubs.size === 0) selectedSubs.add('ALL');
+
+    renderChips('domain-chips', ['ALL', ...new Set(allQuestions.map(q=>q.Domain).filter(Boolean))], selectedDomains, 'domain', () => {
+      updateSubChips();
+      updateCount();
+    });
+    renderChips('subdomain-chips', subs, selectedSubs, 'sub', updateCount);
+    updateCount();
+  }
+
+  function renderChips(containerId, items, activeSet, kind, onChange) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    items.forEach(item => {
+      const btn = document.createElement('button');
+      let cls = 'chip';
+      if (kind === 'type') {
+        if (item === 'CP') cls += ' cp-chip';
+        if (item === 'SCP') cls += ' scp-chip';
+      }
+      if (activeSet.has(item)) cls += ' active';
+      btn.className = cls;
+      btn.textContent = item;
+      btn.onclick = () => {
+        if (item === 'ALL') {
+          activeSet.clear();
+          activeSet.add('ALL');
+        } else {
+          activeSet.delete('ALL');
+          if (activeSet.has(item)) activeSet.delete(item);
+          else activeSet.add(item);
+          if (activeSet.size === 0) activeSet.add('ALL');
+        }
+        renderChips(containerId, items, activeSet, kind, onChange);
+        onChange();
+      };
+      container.appendChild(btn);
+    });
+  }
+
+  function getFilteredQuestions() {
+    return allQuestions.filter(q => {
+      const typeOk = selectedTypes.has('ALL') || selectedTypes.has((q.ExamType||'').toUpperCase());
+      const domainOk = selectedDomains.has('ALL') || selectedDomains.has(q.Domain);
+      const subOk = selectedSubs.has('ALL') || selectedSubs.has(q.Subdomain);
+      return typeOk && domainOk && subOk;
+    });
+  }
+
+  function updateCount() {
+    const n = getFilteredQuestions().length;
+    document.getElementById('q-count-label').textContent = n + ' questions selected';
+  }
+
+  function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function startQuiz() {
+    quizQuestions = shuffle([...getFilteredQuestions()]);
+    if (quizQuestions.length === 0) { alert('No questions match your filters. Please adjust your selection.'); return; }
+    currentIdx = 0; score = 0;
+    cpCorrect = 0; cpTotal = 0; scpCorrect = 0; scpTotal = 0;
+    showScreen('quiz');
+    renderQuestion();
+  }
+
+  function retakeQuiz() {
+    quizQuestions = shuffle([...quizQuestions]);
+    currentIdx = 0; score = 0;
+    cpCorrect = 0; cpTotal = 0; scpCorrect = 0; scpTotal = 0;
+    showScreen('quiz');
+    renderQuestion();
+  }
+
+  function renderQuestion() {
+    const q = quizQuestions[currentIdx];
+    const total = quizQuestions.length;
+    const pct = Math.round((currentIdx / total) * 100);
+
+    document.getElementById('prog-text').textContent = `Question ${currentIdx + 1} of ${total}`;
+    document.getElementById('prog-pct').textContent = pct + '%';
+    document.getElementById('prog-fill').style.width = pct + '%';
+    document.getElementById('score-badge').textContent = `${score} / ${currentIdx}`;
+
+    // Exam type tag
+    const et = (q.ExamType||'').toUpperCase();
+    const etTag = document.getElementById('q-examtype-tag');
+    etTag.textContent = et || '';
+    etTag.className = et === 'SCP' ? 'q-tag-scp' : et === 'CP' ? 'q-tag-cp' : 'q-tag';
+
+    document.getElementById('q-domain').textContent = q.Domain || '';
+    document.getElementById('q-subdomain').textContent = q.Subdomain || '';
+    document.getElementById('question-text').textContent = q.Question;
+
+    const opts = document.getElementById('options-list');
+    opts.innerHTML = '';
+    const letters = ['A','B','C','D'];
+
+    // Build options array with original letter tracked, then shuffle
+    const correctLetter = (q.CorrectAnswer||'').trim().toUpperCase();
+    let optionObjs = [
+      { letter:'A', text: q.OptionA },
+      { letter:'B', text: q.OptionB },
+      { letter:'C', text: q.OptionC },
+      { letter:'D', text: q.OptionD }
+    ].filter(o => o.text);
+
+    // Shuffle options
+    for (let i = optionObjs.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [optionObjs[i], optionObjs[j]] = [optionObjs[j], optionObjs[i]];
+    }
+
+    // Store shuffled order on the question for selectAnswer to use
+    quizQuestions[currentIdx]._shuffled = optionObjs;
+
+    optionObjs.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'option-btn';
+      btn.innerHTML = `<span class="opt-letter">${letters[i]}.</span><span>${opt.text}</span>`;
+      btn.onclick = () => selectAnswer(opt.letter, btn, i);
+      opts.appendChild(btn);
+    });
+
+    document.getElementById('rationale-box').style.display = 'none';
+    document.getElementById('next-btn').style.display = 'none';
+  }
+
+  function selectAnswer(chosenOriginalLetter, btn, chosenIdx) {
+    const q = quizQuestions[currentIdx];
+    const correct = (q.CorrectAnswer||'').trim().toUpperCase();
+    const et = (q.ExamType||'').toUpperCase();
+    const shuffled = q._shuffled || [];
+
+    document.querySelectorAll('.option-btn').forEach((b, i) => {
+      b.disabled = true;
+      if (shuffled[i] && shuffled[i].letter === correct) b.classList.add('reveal-correct');
+    });
+
+    if (chosenOriginalLetter === correct) {
+      btn.classList.remove('reveal-correct');
+      btn.classList.add('correct');
+      score++;
+      if (et === 'CP') cpCorrect++;
+      else if (et === 'SCP') scpCorrect++;
+    } else {
+      btn.classList.add('wrong');
+    }
+
+    if (et === 'CP') cpTotal++;
+    else if (et === 'SCP') scpTotal++;
+
+    document.getElementById('score-badge').textContent = `${score} / ${currentIdx + 1}`;
+    document.getElementById('rationale-text').textContent = q.Rationale || 'No rationale provided.';
+    document.getElementById('rationale-box').style.display = 'block';
+
+    const nextBtn = document.getElementById('next-btn');
+    nextBtn.style.display = 'block';
+    nextBtn.textContent = currentIdx + 1 < quizQuestions.length ? 'Next Question →' : 'See Results →';
+  }
+
+  function nextQuestion() {
+    currentIdx++;
+    if (currentIdx >= quizQuestions.length) showResults();
+    else renderQuestion();
+  }
+
+  function showResults() {
+    showScreen('results');
+    const pct = Math.round((score / quizQuestions.length) * 100);
+    document.getElementById('final-score').textContent = pct + '%';
+    document.getElementById('final-detail').textContent =
+      `You answered ${score} out of ${quizQuestions.length} correctly.`;
+
+    const br = document.getElementById('breakdown-row');
+    br.innerHTML = '';
+    if (cpTotal > 0) {
+      const cpPct = Math.round((cpCorrect/cpTotal)*100);
+      br.innerHTML += `<div class="breakdown-box cp">CP: ${cpCorrect}/${cpTotal} (${cpPct}%)</div>`;
+    }
+    if (scpTotal > 0) {
+      const scpPct = Math.round((scpCorrect/scpTotal)*100);
+      br.innerHTML += `<div class="breakdown-box scp">SCP: ${scpCorrect}/${scpTotal} (${scpPct}%)</div>`;
+    }
+  }
+
+  showScreen('setup');
+  checkBankOnLoad();
+</script>
+</body>
+</html>

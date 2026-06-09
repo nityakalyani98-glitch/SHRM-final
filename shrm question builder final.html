@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SHRM Question Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f4ef;
+  --surface: #ffffff;
+  --surface2: #f0ece4;
+  --navy: #0f2040;
+  --navy-mid: #1a3560;
+  --gold: #c9973a;
+  --gold-light: #e8b84b;
+  --gold-dim: rgba(201,151,58,0.12);
+  --green: #2d7a4f;
+  --green-light: #e8f5ee;
+  --green-dim: rgba(45,122,79,0.12);
+  --red: #9b3030;
+  --red-dim: rgba(155,48,48,0.1);
+  --cp: #1a6b8a;
+  --cp-dim: #e8f4f8;
+  --scp: #6b3fa0;
+  --scp-dim: #f0e8f8;
+  --border: #e2d9cc;
+  --text: #1a1a2e;
+  --muted: #6b7280;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.header {
+  background: var(--navy);
+  padding: 0 28px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.header-left { display: flex; align-items: center; gap: 12px; }
+
+.header h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px;
+  color: var(--gold);
+}
+
+.hbadge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(201,151,58,0.15);
+  color: var(--gold-light);
+  border: 1px solid rgba(201,151,58,0.3);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.q-counter {
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+}
+
+.q-counter span {
+  font-weight: 700;
+  color: var(--gold-light);
+  font-size: 16px;
+}
+
+/* ── TABS ── */
+.tabs {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  padding: 0 28px;
+}
+
+.tab {
+  padding: 13px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  border: none;
+  background: none;
+  border-bottom: 2px solid transparent;
+  font-family: 'DM Sans', sans-serif;
+  transition: all 0.2s;
+}
+
+.tab:hover { color: var(--text); }
+.tab.active { color: var(--navy); border-bottom-color: var(--gold); }
+
+/* ── MAIN ── */
+.main { padding: 28px; max-width: 900px; margin: 0 auto; }
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── ADD QUESTION ── */
+.add-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 640px) { .add-grid { grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+}
+
+.card-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.step-num {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+textarea {
+  width: 100%;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--text);
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s;
+  min-height: 180px;
+}
+
+textarea:focus { border-color: var(--gold); }
+textarea::placeholder { color: #bbb; }
+
+/* ── META ROW ── */
+.meta-row {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px 22px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  margin-bottom: 20px;
+}
+
+.meta-field { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 140px; }
+
+.meta-field label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--muted);
+}
+
+.meta-field select,
+.meta-field input {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.meta-field select:focus,
+.meta-field input:focus { border-color: var(--gold); }
+
+/* ── PREVIEW ── */
+.preview-box {
+  background: var(--surface);
+  border: 1.5px dashed var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  margin-bottom: 20px;
+  min-height: 120px;
+}
+
+.preview-box.has-content { border-style: solid; border-color: var(--gold); }
+.preview-empty { text-align: center; color: var(--muted); font-size: 13px; padding: 30px 0; }
+
+.preview-q-meta { display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap; }
+
+.ptag {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.ptag-cp { background: var(--cp-dim); color: var(--cp); }
+.ptag-scp { background: var(--scp-dim); color: var(--scp); }
+.ptag-domain { background: var(--surface2); color: var(--navy-mid); }
+
+.preview-question { font-size: 15px; font-weight: 500; margin-bottom: 14px; line-height: 1.6; }
+
+.preview-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+
+.preview-option {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  font-size: 13px;
+  line-height: 1.5;
+  display: flex;
+  gap: 10px;
+  background: var(--bg);
+}
+
+.preview-option.correct { border-color: var(--green); background: var(--green-light); color: var(--green); }
+
+.opt-ltr { font-weight: 700; min-width: 18px; font-size: 12px; }
+
+.preview-rationale {
+  background: #f0f4ff;
+  border-left: 3px solid var(--navy-mid);
+  border-radius: 0 8px 8px 0;
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #374151;
+}
+
+.preview-rationale strong { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--navy-mid); display: block; margin-bottom: 6px; }
+
+/* ── CORRECT ANSWER PICKER ── */
+.answer-row { display: flex; gap: 8px; }
+
+.ans-btn {
+  flex: 1;
+  padding: 9px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--muted);
+  transition: all 0.15s;
+}
+
+.ans-btn:hover { border-color: var(--navy); color: var(--navy); }
+.ans-btn.selected { background: var(--green); border-color: var(--green); color: #fff; }
+
+/* ── ACTION BUTTONS ── */
+.action-row { display: flex; gap: 12px; margin-bottom: 32px; }
+
+.btn-add {
+  flex: 1;
+  padding: 14px;
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-add:hover { background: var(--navy-mid); }
+
+.btn-clear {
+  padding: 14px 20px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--navy);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: transform 0.3s ease;
+  z-index: 200;
+  white-space: nowrap;
+}
+
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* ── QUESTION BANK ── */
+.bank-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.bank-filters { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.filter-chip {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  color: var(--muted);
+  transition: all 0.15s;
+}
+
+.filter-chip.active { background: var(--navy); border-color: var(--navy); color: #fff; }
+.filter-chip.cp.active { background: var(--cp); border-color: var(--cp); color: #fff; }
+.filter-chip.scp.active { background: var(--scp); border-color: var(--scp); color: #fff; }
+
+.bank-list { display: flex; flex-direction: column; gap: 10px; }
+
+.bank-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.bank-item:hover { border-color: var(--gold); }
+
+.bank-num {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  min-width: 28px;
+  padding-top: 2px;
+}
+
+.bank-info { flex: 1; }
+
+.bank-meta { display: flex; gap: 6px; margin-bottom: 6px; flex-wrap: wrap; }
+.bank-q { font-size: 14px; line-height: 1.5; color: var(--text); }
+
+.bank-actions { display: flex; gap: 6px; }
+
+.btn-edit {
+  padding: 5px 12px;
+  background: var(--gold-dim);
+  border: 1px solid rgba(201,151,58,0.3);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gold);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.btn-del {
+  padding: 5px 10px;
+  background: var(--red-dim);
+  border: 1px solid rgba(155,48,48,0.2);
+  border-radius: 6px;
+  font-size: 12px;
+  color: var(--red);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+}
+
+/* ── EXPORT ── */
+.export-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px;
+  margin-bottom: 20px;
+}
+
+.export-card h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.export-card p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.btn-export {
+  padding: 13px 28px;
+  background: var(--gold);
+  color: var(--navy);
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.btn-export:hover { background: var(--gold-light); }
+
+.export-preview {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  font-size: 12px;
+  font-family: monospace;
+  color: var(--muted);
+  line-height: 1.7;
+  max-height: 180px;
+  overflow-y: auto;
+  white-space: pre;
+  margin-top: 16px;
+}
+
+.empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
+.empty-state .ei { font-size: 36px; margin-bottom: 12px; }
+.empty-state p { font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>SHRM Question Builder</h1>
+    <span class="hbadge">CP & SCP</span>
+  </div>
+  <div class="header-right">
+    <span class="q-counter"><span id="total-count">0</span> questions saved</span>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('add', this)">➕ Add Question</button>
+  <button class="tab" onclick="switchTab('bank', this)">📚 Question Bank</button>
+  <button class="tab" onclick="switchTab('export', this)">📤 Export</button>
+</div>
+
+<div class="main">
+
+  <!-- ══ ADD QUESTION ══ -->
+  <div id="screen-add" class="screen active">
+
+    <div class="add-grid">
+      <!-- Paste box 1 -->
+      <div class="card">
+        <div class="card-title">
+          <div class="step-num">1</div>
+          Paste Question + Options
+        </div>
+        <textarea id="paste-question" placeholder="Paste the question text and all 4 options here exactly as copied from SHRM.
+
+Example:
+In 2015, Company X's turnover rate was 74%...
+Answers
+
+(Employed employees for the entire...)
+(Number of separations...)
+(Employed employees for the entire...)
+(Employed employees for the entire...)" oninput="parseAndPreview()"></textarea>
+      </div>
+
+      <!-- Paste box 2 -->
+      <div class="card">
+        <div class="card-title">
+          <div class="step-num">2</div>
+          Paste Rationale
+        </div>
+        <textarea id="paste-rationale" placeholder="Paste the rationale here exactly as copied from SHRM.
+
+Example:
+Rationale
+The retention rate is calculated as...
+It tracks the retention of those working on day one..." oninput="parseAndPreview()"></textarea>
+      </div>
+    </div>
+
+    <!-- Meta row -->
+    <div class="meta-row">
+      <div class="meta-field">
+        <label>Exam Type</label>
+        <select id="m-examtype" onchange="parseAndPreview()">
+          <option value="CP">CP</option>
+          <option value="SCP">SCP</option>
+        </select>
+      </div>
+      <div class="meta-field">
+        <label>Domain</label>
+        <select id="m-domain" onchange="updateSubdomains(); parseAndPreview()">
+          <option value="People">People</option>
+          <option value="Organization">Organization</option>
+          <option value="Workplace">Workplace</option>
+          <option value="Business">Business</option>
+        </select>
+      </div>
+      <div class="meta-field">
+        <label>Subdomain</label>
+        <select id="m-subdomain" onchange="parseAndPreview()"></select>
+      </div>
+      <div class="meta-field">
+        <label>Correct Answer</label>
+        <div class="answer-row">
+          <button class="ans-btn" onclick="selectAnswer('A',this)">A</button>
+          <button class="ans-btn" onclick="selectAnswer('B',this)">B</button>
+          <button class="ans-btn" onclick="selectAnswer('C',this)">C</button>
+          <button class="ans-btn" onclick="selectAnswer('D',this)">D</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live preview -->
+    <div class="card" style="margin-bottom:20px;">
+      <div class="card-title"><div class="step-num">3</div> Live Preview</div>
+      <div id="preview-area"><div class="preview-empty">Paste a question above to see a live preview here.</div></div>
+    </div>
+
+    <!-- Actions -->
+    <div class="action-row">
+      <button class="btn-add" onclick="addQuestion()">✓ Add to Question Bank</button>
+      <button class="btn-clear" onclick="clearForm()">Clear</button>
+    </div>
+  </div>
+
+  <!-- ══ QUESTION BANK ══ -->
+  <div id="screen-bank" class="screen">
+    <div class="bank-header">
+      <div class="bank-filters" id="bank-filters">
+        <button class="filter-chip active" onclick="setFilter('ALL',this)">All</button>
+        <button class="filter-chip cp" onclick="setFilter('CP',this)">CP</button>
+        <button class="filter-chip scp" onclick="setFilter('SCP',this)">SCP</button>
+      </div>
+    </div>
+    <div class="bank-list" id="bank-list"></div>
+  </div>
+
+  <!-- ══ EXPORT ══ -->
+  <div id="screen-export" class="screen">
+    <div class="export-card">
+      <h3>Export to CSV</h3>
+      <p>Download all your questions as a CSV file. Open it in Google Sheets, then publish it to the web to use with your Quiz App. The columns will match exactly: ExamType, Domain, Subdomain, Question, OptionA, OptionB, OptionC, OptionD, CorrectAnswer, Rationale.</p>
+      <button class="btn-export" onclick="exportCSV()">⬇ Download CSV</button>
+      <button class="btn-export" style="background:var(--surface);border:1.5px solid var(--border);color:var(--navy);" onclick="copyCSV()">📋 Copy CSV Text</button>
+      <div id="export-preview" class="export-preview" style="display:none"></div>
+    </div>
+
+    <div class="export-card">
+      <h3>How to use with the Quiz App</h3>
+      <p>
+        1. Click <strong>Download CSV</strong> above<br>
+        2. Go to <strong>sheets.google.com</strong> → File → Import → Upload the CSV<br>
+        3. Go to <strong>File → Share → Publish to web</strong> → Sheet1 → CSV → Publish<br>
+        4. Copy the URL and paste it into your <strong>Quiz App</strong>
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── STATE ──
+let questions = JSON.parse(localStorage.getItem('shrm_questions') || '[]');
+let selectedAnswer = '';
+let bankFilter = 'ALL';
+let editingIndex = -1;
+
+const SUBDOMAINS = {
+  People: ['Talent Acquisition','Employee Engagement & Retention','Learning & Development','Total Rewards','Performance Management'],
+  Organization: ['Organizational Effectiveness','Organizational Development','Workforce Management','Employee Relations','HR Technology & Data','HR Strategy'],
+  Workplace: ['Workplace Culture','Diversity, Equity & Inclusion','Risk Management','Employment Law & Regulations','Labor Relations'],
+  Business: ['Business Acumen','Global & Cultural Effectiveness','Corporate Social Responsibility','Financial Management','Mixed / Full Mock']
+};
+
+// ── INIT ──
+updateSubdomains();
+updateCount();
+
+function updateSubdomains() {
+  const domain = document.getElementById('m-domain').value;
+  const sel = document.getElementById('m-subdomain');
+  sel.innerHTML = SUBDOMAINS[domain].map(s => `<option value="${s}">${s}</option>`).join('');
+}
+
+function updateCount() {
+  document.getElementById('total-count').textContent = questions.length;
+}
+
+// ── TABS ──
+function switchTab(name, btn) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('screen-' + name).classList.add('active');
+  btn.classList.add('active');
+  if (name === 'bank') renderBank();
+  if (name === 'export') renderExportPreview();
+}
+
+// ── PARSER ──
+function parseQuestion(raw) {
+  const lines = raw.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+  let questionLines = [];
+  let options = [];
+  let parsingOptions = false;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (line.toLowerCase() === 'answers' || line.toLowerCase() === 'answer') {
+      parsingOptions = true;
+      continue;
+    }
+    if (parsingOptions) {
+      // Strip leading A. B. C. D. or A) B) etc if present
+      const clean = line.replace(/^[A-Da-d][\.\)]\s*/, '').trim();
+      if (clean) options.push(clean);
+    } else {
+      questionLines.push(line);
+    }
+  }
+
+  return {
+    question: questionLines.join(' ').trim(),
+    options: options.slice(0, 4)
+  };
+}
+
+function parseRationale(raw) {
+  const lines = raw.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+  // Remove first line if it's just "Rationale"
+  if (lines.length > 0 && lines[0].toLowerCase() === 'rationale') lines.shift();
+  return lines.join(' ').trim();
+}
+
+// ── LIVE PREVIEW ──
+function parseAndPreview() {
+  const raw = document.getElementById('paste-question').value;
+  const rawRat = document.getElementById('paste-rationale').value;
+  const examType = document.getElementById('m-examtype').value;
+  const domain = document.getElementById('m-domain').value;
+  const subdomain = document.getElementById('m-subdomain').value;
+
+  if (!raw.trim()) {
+    document.getElementById('preview-area').innerHTML = '<div class="preview-empty">Paste a question above to see a live preview here.</div>';
+    return;
+  }
+
+  const parsed = parseQuestion(raw);
+  const rationale = parseRationale(rawRat);
+  const letters = ['A','B','C','D'];
+
+  const metaTags = `
+    <div class="preview-q-meta">
+      <span class="ptag ${examType === 'CP' ? 'ptag-cp' : 'ptag-scp'}">${examType}</span>
+      <span class="ptag ptag-domain">${domain}</span>
+      <span class="ptag ptag-domain">${subdomain}</span>
+    </div>`;
+
+  const qText = `<div class="preview-question">${parsed.question || '<em style="color:#bbb">Question will appear here...</em>'}</div>`;
+
+  const opts = parsed.options.map((o, i) => {
+    const isCorrect = selectedAnswer === letters[i];
+    return `<div class="preview-option ${isCorrect ? 'correct' : ''}">
+      <span class="opt-ltr">${letters[i]}.</span>
+      <span>${o}</span>
+    </div>`;
+  }).join('');
+
+  const ratHtml = rationale
+    ? `<div class="preview-rationale"><strong>📖 Rationale</strong>${rationale}</div>`
+    : '';
+
+  document.getElementById('preview-area').innerHTML = metaTags + qText +
+    `<div class="preview-options">${opts}</div>` + ratHtml;
+}
+
+// ── CORRECT ANSWER ──
+function selectAnswer(letter, btn) {
+  document.querySelectorAll('.ans-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedAnswer = letter;
+  parseAndPreview();
+}
+
+// ── ADD QUESTION ──
+function addQuestion() {
+  const raw = document.getElementById('paste-question').value.trim();
+  const rawRat = document.getElementById('paste-rationale').value.trim();
+
+  if (!raw) { showToast('⚠ Please paste a question first.'); return; }
+  if (!selectedAnswer) { showToast('⚠ Please select the correct answer (A, B, C or D).'); return; }
+
+  const parsed = parseQuestion(raw);
+
+  if (!parsed.question) { showToast('⚠ Could not detect question text. Check the format.'); return; }
+  if (parsed.options.length < 2) { showToast('⚠ Could not detect options. Make sure to include the word "Answers" before the options.'); return; }
+
+  const entry = {
+    ExamType: document.getElementById('m-examtype').value,
+    Domain: document.getElementById('m-domain').value,
+    Subdomain: document.getElementById('m-subdomain').value,
+    Question: parsed.question,
+    OptionA: parsed.options[0] || '',
+    OptionB: parsed.options[1] || '',
+    OptionC: parsed.options[2] || '',
+    OptionD: parsed.options[3] || '',
+    CorrectAnswer: selectedAnswer,
+    Rationale: parseRationale(rawRat)
+  };
+
+  if (editingIndex >= 0) {
+    questions[editingIndex] = entry;
+    editingIndex = -1;
+    showToast('✓ Question updated!');
+  } else {
+    questions.push(entry);
+    showToast('✓ Question #' + questions.length + ' added!');
+  }
+
+  localStorage.setItem('shrm_questions', JSON.stringify(questions));
+  updateCount();
+  clearForm();
+}
+
+// ── CLEAR ──
+function clearForm() {
+  document.getElementById('paste-question').value = '';
+  document.getElementById('paste-rationale').value = '';
+  document.querySelectorAll('.ans-btn').forEach(b => b.classList.remove('selected'));
+  selectedAnswer = '';
+  editingIndex = -1;
+  document.querySelector('.btn-add').textContent = '✓ Add to Question Bank';
+  parseAndPreview();
+}
+
+// ── BANK ──
+let bankFilterType = 'ALL';
+
+function setFilter(type, btn) {
+  bankFilterType = type;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  renderBank();
+}
+
+function renderBank() {
+  const list = document.getElementById('bank-list');
+  const filtered = bankFilterType === 'ALL'
+    ? questions
+    : questions.filter(q => q.ExamType === bankFilterType);
+
+  if (filtered.length === 0) {
+    list.innerHTML = `<div class="empty-state"><div class="ei">📭</div><p>No questions yet. Go to Add Question to start building your bank.</p></div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map((q, i) => {
+    const realIdx = questions.indexOf(q);
+    return `<div class="bank-item">
+      <div class="bank-num">#${realIdx + 1}</div>
+      <div class="bank-info">
+        <div class="bank-meta">
+          <span class="ptag ${q.ExamType === 'CP' ? 'ptag-cp' : 'ptag-scp'}">${q.ExamType}</span>
+          <span class="ptag ptag-domain">${q.Domain}</span>
+          <span class="ptag ptag-domain">${q.Subdomain}</span>
+        </div>
+        <div class="bank-q">${q.Question.length > 120 ? q.Question.slice(0,120) + '...' : q.Question}</div>
+      </div>
+      <div class="bank-actions">
+        <button class="btn-edit" onclick="editQuestion(${realIdx})">Edit</button>
+        <button class="btn-del" onclick="deleteQuestion(${realIdx})">✕</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function editQuestion(idx) {
+  const q = questions[idx];
+  editingIndex = idx;
+
+  // Reconstruct paste text
+  const pasteQ = q.Question + '\nAnswers\n\n' +
+    [q.OptionA, q.OptionB, q.OptionC, q.OptionD].filter(Boolean).join('\n\n');
+  const pasteR = 'Rationale\n' + q.Rationale;
+
+  document.getElementById('paste-question').value = pasteQ;
+  document.getElementById('paste-rationale').value = pasteR;
+  document.getElementById('m-examtype').value = q.ExamType;
+  document.getElementById('m-domain').value = q.Domain;
+  updateSubdomains();
+  document.getElementById('m-subdomain').value = q.Subdomain;
+
+  document.querySelectorAll('.ans-btn').forEach(b => {
+    b.classList.remove('selected');
+    if (b.textContent === q.CorrectAnswer) b.classList.add('selected');
+  });
+  selectedAnswer = q.CorrectAnswer;
+
+  document.querySelector('.btn-add').textContent = '✓ Save Changes';
+
+  // Switch to add tab
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('screen-add').classList.add('active');
+  document.querySelector('.tab').classList.add('active');
+
+  parseAndPreview();
+  window.scrollTo(0,0);
+  showToast('Editing question #' + (idx+1));
+}
+
+function deleteQuestion(idx) {
+  if (!confirm('Delete this question?')) return;
+  questions.splice(idx, 1);
+  localStorage.setItem('shrm_questions', JSON.stringify(questions));
+  updateCount();
+  renderBank();
+  showToast('Question deleted.');
+}
+
+// ── EXPORT ──
+function getCSV() {
+  const headers = ['ExamType','Domain','Subdomain','Question','OptionA','OptionB','OptionC','OptionD','CorrectAnswer','Rationale'];
+  const escape = v => '"' + String(v||'').replace(/"/g, '""') + '"';
+  const rows = [headers.join(','), ...questions.map(q =>
+    headers.map(h => escape(q[h])).join(',')
+  )];
+  return rows.join('\n');
+}
+
+function renderExportPreview() {
+  const prev = document.getElementById('export-preview');
+  if (questions.length === 0) { prev.style.display = 'none'; return; }
+  prev.style.display = 'block';
+  prev.textContent = getCSV().slice(0, 800) + (getCSV().length > 800 ? '\n...' : '');
+}
+
+function exportCSV() {
+  if (questions.length === 0) { showToast('⚠ No questions to export yet.'); return; }
+  const csv = getCSV();
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'shrm_questions.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('✓ CSV downloaded!');
+}
+
+function copyCSV() {
+  if (questions.length === 0) { showToast('⚠ No questions to export yet.'); return; }
+  navigator.clipboard.writeText(getCSV()).then(() => showToast('✓ CSV copied to clipboard!'));
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>
